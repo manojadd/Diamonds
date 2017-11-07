@@ -7,7 +7,7 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 const mapStateToProps = state => {
-  return {width: 300, height: 250, src: "http://localhost:3000/360-panoramas-truro-park-3-1200x600.jpg", skew: "15", direction: 'x'};
+  return {width: 400, height: 250, src: "http://localhost:3000/360-panoramas-truro-park-3-1200x600.jpg", skew: "15", direction: 'x'};
 };
 
 class Thumbnail extends Component {
@@ -46,7 +46,7 @@ class Thumbnail extends Component {
     if (this.props.direction === 'y') {
       let translateValueY,
         translateValueX;
-      if (this.state.totalDimension.divRatio > 1 && this.state.imgDimension.imgRatio > this.state.totalDimension.divRatio) {
+      if ( this.state.imgDimension.imgRatio > this.state.totalDimension.divRatio) {
         translateValueY = tanValue * (this.state.totalDimension.divHeight * this.state.imgDimension.imgRatio);
         translateValueX = ((this.state.totalDimension.divHeight * this.state.imgDimension.imgRatio) - this.state.totalDimension.divWidth) / 2;
         return {
@@ -56,7 +56,7 @@ class Thumbnail extends Component {
           translateValueX) + "px)",
 
         };
-      } else if (this.state.totalDimension.divRatio > 1 && this.state.imgDimension.imgRatio < this.state.totalDimension.divRatio) {
+      } else if ( this.state.imgDimension.imgRatio < this.state.totalDimension.divRatio) {
         translateValueY = tanValue * (this.state.totalDimension.divWidth)/2;
         translateValueY = translateValueY + ((this.state.totalDimension.divWidth/this.state.imgDimension.imgRatio)-this.state.totalDimension.divHeight)/2;
 
@@ -65,29 +65,12 @@ class Thumbnail extends Component {
           transform: "translateY(-" + (
           translateValueY) + "px)" + unskew
         };
-      } else if (this.state.totalDimension.divRatio < 1 && this.state.imgDimension.imgRatio < this.state.totalDimension.divRatio) {
-        translateValueY = tanValue * (this.state.totalDimension.divWidth)/2;
-        translateValueY = translateValueY + ((this.state.totalDimension.divWidth/this.state.imgDimension.imgRatio)-this.state.totalDimension.divHeight)/2;
-        return {
-          width: this.state.totalDimension.divWidth,
-          transform: "translateY(-" + (
-          translateValueY) + "px)" + unskew
-        };
-      } else if (this.state.totalDimension.divRatio < 1 && this.state.imgDimension.imgRatio > this.state.totalDimension.divRatio) {
-        translateValueY = tanValue * (this.state.totalDimension.divHeight * this.state.imgDimension.imgRatio);
-        translateValueX = ((this.state.totalDimension.divHeight * this.state.imgDimension.imgRatio) - this.state.totalDimension.divWidth) / 2;
-        return {
-          height: this.state.totalDimension.divHeight,
-          transform: "translateY(-" + (
-          translateValueY / 2) + "px) " + unskew + "translateX(-" + (
-          translateValueX) + "px)"
-        };
       }
     }
     else if(this.props.direction === 'x'){
       let translateValueY,
         translateValueX;
-      if (this.state.totalDimension.divRatio > 1 && this.state.imgDimension.imgRatio > this.state.totalDimension.divRatio) {
+      if ( this.state.imgDimension.imgRatio > this.state.totalDimension.divRatio) {
         translateValueX = tanValue * this.state.totalDimension.divHeight/2;
         translateValueX = translateValueX + ((this.state.totalDimension.divHeight * this.state.imgDimension.imgRatio) - this.state.totalDimension.divWidth) / 2;
 
@@ -96,7 +79,6 @@ class Thumbnail extends Component {
           transform: "translateY(-" + (
           0 / 2) + "px)" + unskew + "translateX(-" + (
           translateValueX) + "px)",
-
         };
       } else if (this.state.totalDimension.divRatio > 1 && this.state.imgDimension.imgRatio < this.state.totalDimension.divRatio) {
         translateValueX = tanValue * this.state.totalDimension.divHeight/2;
@@ -115,17 +97,6 @@ class Thumbnail extends Component {
           width: this.state.totalDimension.divWidth,
           transform: "translateY(-" + (
           translateValueY) + "px)" + unskew
-        };
-      } else if (this.state.totalDimension.divRatio < 1 && this.state.imgDimension.imgRatio > this.state.totalDimension.divRatio) {
-        translateValueX = tanValue * this.state.totalDimension.divHeight/2;
-        translateValueX = translateValueX + ((this.state.totalDimension.divHeight * this.state.imgDimension.imgRatio) - this.state.totalDimension.divWidth) / 2;
-
-        return {
-          height: this.state.totalDimension.divHeight,
-          transform: "translateY(-" + (
-          0 / 2) + "px)" + unskew + "translateX(-" + (
-          translateValueX) + "px)",
-
         };
       }
     }
