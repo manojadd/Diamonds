@@ -5,9 +5,9 @@
   overflow:hidden;
 }
 .overlayDiv{
-
+  box-shadow: 0 9px 7px -7px black;
   position:absolute;
-  z-index: 999;
+  z-index: 800;
 }
 .main{
 

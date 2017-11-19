@@ -1,28 +1,24 @@
-.App {
-  text-align: center;
+.iconImg{
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 0px;
+  right: 30px;
+  object-fit: contain;
+  background-color: rgb(165, 186, 215);
 }
+.viewer{
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+    position: absolute;
+    width: 95%;
+    height: 98vh;
+    top: 1vh;
+    left:2.5%;
+    overflow: hidden;
+    z-index: 801;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.bodyAlias{
+  background-color: #e3e1dd;
+  height:97vh;
 }

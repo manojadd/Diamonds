@@ -7,7 +7,7 @@ const part = {
   skew: -15,
   direction: 'x',
   hoverScale: 1.2,
-  topOffset: -100,
+  topOffset: -125,
   // leftOffset: 50,
   divisions: 3,
   time: 1,
@@ -18,12 +18,14 @@ const part = {
   standScale: {
     x: 0.6,
     y: 0.6
-  }
+  },
+  thumbError:{}
 };
 
 const initialState = {
   thumbnails: [],
-  mainError:{}
+  mainError:{},
+  aImg:null
 };
 
 export const galleryReducer = function(state = initialState, action) {
@@ -114,7 +116,7 @@ export const galleryReducer = function(state = initialState, action) {
       obj = update(state,{
         thumbnails:{
           [action.payload.id]:{
-            networkError:{
+            thumbError:{
               status:{$set:true},
               name:{$set:action.payload.name},
               desc:{$set:action.payload.desc}

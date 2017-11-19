@@ -4,6 +4,7 @@ import AViewer from "./components/A-Viewer/A-Viewer.jsx";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import 'aframe';
+import './App.css';
 import {
   setImgDimesion,
   setHoverDimension,
@@ -15,10 +16,12 @@ import {
   setImgLoaded,
   setBaseDim,
   setBaseOffset,
-  setOverlayClicked
+  setOverlayClicked,
+  setThumbnailError,
+  setError,
 } from "./Actions/galleryActions";
 
-import MyError from './components/ErrorHandlers/ErrHandler1';
+import MyError from './components/ErrorHandlers/ErrHandler';
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
@@ -32,7 +35,9 @@ const mapDispatchToProps = dispatch => {
     setImgLoaded,
     setBaseDim,
     setBaseOffset,
-    setOverlayClicked
+    setOverlayClicked,
+    setThumbnailError,
+    setError,
   }, dispatch);
 };
 
@@ -44,6 +49,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.props.fetchImages('https://demo0813639.mockable.io/getPanos');
+    this._onCloseClick = this._onCloseClick.bind(this);
     this.obj = (({
       setImgDimesion,
       setHoverDimension,
@@ -55,7 +61,8 @@ class App extends Component {
       setImgLoaded,
       setBaseDim,
       setBaseOffset,
-      setOverlayClicked
+      setOverlayClicked,
+      setThumbnailError
     }) => ({
       setImgDimesion,
       setHoverDimension,
@@ -67,12 +74,17 @@ class App extends Component {
       setImgLoaded,
       setBaseDim,
       setBaseOffset,
-      setOverlayClicked
+      setOverlayClicked,
+      setThumbnailError
     }))(this.props);
+  }
+  _onCloseClick(e){
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.setOverlayClicked(null);
   }
 
   render() {
-    console.log('Props in app: ', this.props);
     let thumbs = this.props.thumbnails.map((item, index) => {
       let thumb = (<Thumbnail {...this.obj} {...item} key={index}/>);
       return thumb;
@@ -80,15 +92,24 @@ class App extends Component {
     let err = this.props.mainError.status
       ? (<div style={{
           width: '100%',
-          height: '100%'
-        }}>
+      }}>
         <MyError err={this.props.mainError}/>
       </div>)
       : null;
-    let aViewer = (this.props.aImg)
-      ? (<AViewer><a-scene><a-sky src={this.props.thumbnails[this.props.aImg].src} /></a-scene></AViewer>)
+
+    let aViewer = (this.props.aImg !== null)
+      ? (<AViewer>
+        <div className='viewer'>
+          <a-scene>
+            <a-sky src={require(`./images/${this.props.thumbnails[this.props.aImg].src.split('/').pop()}`)}/>
+          </a-scene>
+
+          <img className={'iconImg'} src={require('./images/close.png')} onClick={this._onCloseClick} alt = 'aFrame'/>
+
+        </div>
+      </AViewer>)
       : null;
-    return <div >
+    return <div className={'bodyAlias'}>
       {thumbs}
       {err}
       {aViewer}

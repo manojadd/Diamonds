@@ -4,6 +4,7 @@ import "./style.css";
 import {transformHelp} from '../../helper.js';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {StyleSheet, css} from 'aphrodite';
+import MyError from '../ErrorHandlers/ErrHandler.jsx';
 
 function NoWrapper(props) {
   const childrenArray = React.Children.toArray(props.children);
@@ -48,6 +49,11 @@ class Thumbnail extends Component {
     this.props.setImgLoaded(false, this.props.id);
     this.props.setBaseDim(baseDim, this.props.id);
     this.props.setBaseOffset(baseOffset, this.props.id);
+  }
+
+  componentDidCatch(error, info) {
+    this.props.setThumbnailError('Something Strange happened..:Try Reloading the page', this.props.id);
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -234,14 +240,24 @@ class Thumbnail extends Component {
     this.state.hovered && this.setState({hovered: false});
   }
 
-  _onClick(e){
+  _onClick(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.setOverlayClicked(this.props.id);
   }
 
   render() {
-    console.log('this is props in thumbnail: ',this.props);
+    let MyError = this.props.thumbError.status
+      ? (<div style={{
+          width: '100%'
+        }}>
+        <MyError err={this.props.thumbError}/>
+      </div>)
+      : null;
+
+    if (this.props.thumbError.status)
+      return {MyError};
+
     let skew = {
       transform: this.props.direction === 'y'
         ? 'skewY(' + (
@@ -260,7 +276,7 @@ class Thumbnail extends Component {
     let skewedDimension = this.props.imgLoaded
       ? this.getSkewedDimension()
       : {};
-    let stand = (this.state.hovered&&this.state.standDivs&&this.state.offsetDimensions)
+    let stand = (this.state.hovered && this.state.standDivs && this.state.offsetDimensions)
       ? this.getStand()
       : null;
     let hoverStyle = {};
@@ -291,6 +307,8 @@ class Thumbnail extends Component {
           : 0) + 20}px`,
         marginBottom: `${ ((this.props.totalDimension.divHeight - this.props.height) / 2) + 20}px`
       };
+
+
     return (<div className='main' style={mainStyle}>
       <CSSTransitionGroup component={NoWrapper} transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
         {
@@ -307,11 +325,11 @@ class Thumbnail extends Component {
           cursor: 'pointer',
           width: `${this.props.width}px`,
           height: `${this.props.height}px`
-      })} onMouseEnter={this._onMouseEnter} onMouseOut={this._onMouseOut} onClick={this._onClick}></div>
+        })} onMouseEnter={this._onMouseEnter} onMouseOut={this._onMouseOut} onClick={this._onClick}></div>
       <div className='parent' style={Object.assign({}, skew, {
           width: `${this.props.width}px`,
           height: `${this.props.height}px`
-      })}>
+        })}>
 
         <img src={this.props.src} onLoad={this.onImgLoad} alt={this.props.src} style={Object.assign({}, skewedDimension, this.state.hovered && thumbnailStyleOnHover)}/>
 
