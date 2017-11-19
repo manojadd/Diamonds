@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aframe": "^0.7.1",
+    "aphrodite": "^1.2.5",
+    "immutability-helper": "^2.5.0",
+    "immutable": "^3.8.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.0"
+    "react-transition-group": "^1.2.1",
+    "redux": "^3.7.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.16"
+    "react-scripts": "1.0.16",
+    "redux-logger": "^3.0.6"
   },
   "scripts": {
     "start": "react-scripts start",

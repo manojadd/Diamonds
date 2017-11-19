@@ -1,18 +1,32 @@
 .parent{
   background-color: blue;
-  margin-left: 200px;
-  margin-top: 200px;
-  width:400px;
-  height:250px;
+
   position:relative;
   overflow:hidden;
 }
-.parent::before{
+.overlayDiv{
 
+  position:absolute;
+  z-index: 999;
+}
+.main{
+
+  display:inline-block;
+}
+.example-enter {
+  opacity: 0.01;
 }
 
-.parent::after{
-
-
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
 }
-img{}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
